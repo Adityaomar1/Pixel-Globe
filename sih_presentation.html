@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SIH 2026 - Idea Submission PPT (COSMOS Change Detection)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700;800&family=Orbitron:wght@700&display=swap');
+
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #334155;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #111;
+    padding: 20px 0;
+  }
+
+  .slide {
+    width: 297mm;
+    height: 210mm;
+    background: #ffffff;
+    margin: 20px auto;
+    position: relative;
+    padding: 14mm 16mm 16mm 16mm;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  @media print {
+    body { background: none; padding: 0; }
+    .slide { margin: 0; box-shadow: none; width: 100vw; height: 100vh; }
+  }
+
+  /* Header */
+  .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    height: 60px;
+  }
+
+  .team-badge {
+    border: 2px solid #581c87;
+    border-radius: 50px;
+    padding: 6px 18px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: #1e1e1e;
+    line-height: 1.1;
+    min-width: 120px;
+    background: #faf5ff;
+  }
+
+  .slide-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0b192c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .sih-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sih-logo-text {
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.15;
+    text-align: left;
+    color: #1e293b;
+    border-left: 2.5px solid #ea580c;
+    padding-left: 6px;
+  }
+
+  /* Bottom Blue Footer Bar */
+  .slide-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background-color: #0070c0;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Boxes & Layouts */
+  .two-col-grid {
+    display: grid;
+    grid-template-columns: 1.08fr 1fr;
+    gap: 14px;
+    flex: 1;
+    margin-bottom: 22px;
+  }
+
+  .grid-three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    flex: 1;
+    margin-bottom: 22px;
+  }
+
+  .card-box {
+    border: 2px solid #0070c0;
+    border-radius: 6px;
+    padding: 12px 14px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .box-header {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0070c0;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1.5px solid #e2e8f0;
+  }
+
+  .box-subtext {
+    font-size: 12px;
+    color: #334155;
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+
+  ul.point-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  ul.point-list li {
+    font-size: 11.8px;
+    line-height: 1.35;
+    color: #1e293b;
+    position: relative;
+    padding-left: 18px;
+  }
+
+  ul.point-list li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #0070c0;
+    font-size: 12px;
+  }
+
+  .bold { font-weight: 700; color: #0f172a; }
+  .highlight { color: #0070c0; font-weight: 700; }
+
+  /* Architecture Flow Diagram */
+  .flow-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 6px;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 6px;
+  }
+
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .flow-node {
+    background: #ffffff;
+    border: 1.5px solid #0070c0;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    flex: 1;
+  }
+
+  .flow-node.highlight-node {
+    background: #e0f2fe;
+    border-color: #0284c7;
+  }
+
+  .flow-arrow {
+    font-size: 13px;
+    font-weight: 800;
+    color: #ea580c;
+  }
+
+  .status-banner {
+    border: 2px solid #0070c0;
+    background: #f0fdf4;
+    color: #166534;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  /* Title Slide Specifics */
+  .title-slide-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .title-hexagon {
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, #ea580c, #0284c7);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(0, 112, 192, 0.3);
+  }
+
+  .main-heading {
+    font-size: 28px;
+    font-weight: 900;
+    color: #0070c0;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .meta-card {
+    border: 2px solid #0070c0;
+    border-radius: 8px;
+    padding: 14px 24px;
+    background: #f8fafc;
+    width: 90%;
+    max-width: 740px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    text-align: left;
+    font-size: 13px;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meta-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+  }
+
+  .meta-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .print-btn-bar {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 999;
+  }
+
+  .print-btn {
+    background: #0070c0;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .print-btn:hover { background: #0284c7; }
+</style>
+</head>
+<body>
+
+<div class="print-btn-bar">
+  <button class="print-btn" onclick="window.print()">🖨️ Download / Print as PDF</button>
+</div>
+
+<!-- ========================================================================= -->
+<!-- SLIDE 1: TITLE PAGE -->
+<!-- ========================================================================= -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="team-badge">YOUR TEAM<br>NAME</div>
+    <div class="slide-title">SMART INDIA HACKATHON 2026</div>
+    <div class="sih-logo">
+      <div style="font-size: 28px;">🧠</div>
+      <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br>2026</div>
+    </div>
+  </div>
+
+  <div class="title-slide-container">
+    <div class="title-hexagon">🛰️</div>
+    <h1 class="main-heading">COSMOS // SATELLITE CHANGE DETECTION</h1>
+    <p style="font-size: 15px; color: #475569; font-weight: 600;">Dual-Model Deep Learning Framework for Bi-Temporal Remote Sensing & Real-Time Geospatial Intelligence</p>
+
+    <div class="meta-card">
+      <div class="meta-item">
+        <span class="meta-label">Problem Statement ID</span>
+        <span class="meta-val highlight">SIH 1518</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">PS Category</span>
+        <span class="meta-val">Software</span>
+      </div>
+      <div class="meta-item" style="grid-column: span 2;">
+        <span class="meta-label">Problem Statement Title</span>
+        <span class="meta-val">AI-Driven Bi-Temporal Satellite Image Change Detection for Earth Observation & Urban Monitoring</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Theme</span>
+        <span class="meta-val">Space Technology / Disaster Management / Environment</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Team ID / Registered Name</span>
+        <span class="meta-val">[Your Team ID] &bull; [Your Team Name]</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span>@SIH Idea submission- Template</span>
+    <span>1</span>
+  </div>
+</div>
+
+
+<!-- ========================================================================= -->
+<!-- SLIDE 2: PROPOSED SOLUTION & UVP (Exact Winning CodeStrix Layout) -->
+<!-- ========================================================================= -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="team-badge">YOUR TEAM<br>NAME</div>
+    <div class="slide-title">IDEA TITLE & PROPOSED SOLUTION</div>
+    <div class="sih-logo">
+      <div style="font-size: 28px;">🧠</div>
+      <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br>2026</div>
+    </div>
+  </div>
+
+  <div class="two-col-grid">
+    <!-- Left Box: IDEA / SOLUTION -->
+    <div class="card-box">
+      <div class="box-header">IDEA / SOLUTION :</div>
+      <p class="box-subtext">
+        Implementation of an <span class="bold">End-to-End Dual-Model Bi-Temporal Deep Learning System</span> specialized for <span class="highlight">Automated Satellite Image Change Detection & Real-Time Geospatial Intelligence</span>.
+      </p>
+      <ul class="point-list">
+        <li><span class="bold">Bi-Temporal Neural Pipeline:</span> Ingests Pre-Event ($T_1$) and Post-Event ($T_2$) satellite imagery to automatically compute sub-pixel structural & land-cover transformations.</li>
+        <li><span class="bold">Dual Neural Model Engine:</span> Integrates lightweight attention-based <span class="highlight">TinyCD</span> (EfficientNet-B0) and differential encoder-decoder <span class="highlight">Siamese U-Net</span>.</li>
+        <li><span class="bold">Zero-Downtime Model Switching:</span> Instant dynamic toggling between models in memory without restarting backend servers.</li>
+        <li><span class="bold">Interactive Space HUD Mission Console:</span> Complete web application featuring draggable <span class="bold">Swipe Reveal Slider</span>, sensitivity controls, and real-time telemetry.</li>
+        <li><span class="bold">Multi-Modal Output Suite:</span> Generates Binary Anomaly Masks, Glowing Holographic Overlays, Continuous Turbo Heatmaps, and 3-Panel Composite Reports.</li>
+      </ul>
+    </div>
+
+    <!-- Right Column: 2 Stacked Boxes -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <!-- Top Right Box: Problem Resolution -->
+      <div class="card-box" style="flex: 1;">
+        <div class="box-header">Problem Resolution :</div>
+        <ul class="point-list">
+          <li><span class="bold">Automated Sub-Second Inference:</span> Replaces tedious, error-prone manual GIS photo-interpretation with instantaneous neural prediction (<span class="highlight">&lt; 300 ms</span>).</li>
+          <li><span class="bold">High Environmental Robustness:</span> Eliminates false-positive alerts caused by seasonal vegetation variations, solar illumination shifts, and sensor noise.</li>
+          <li><span class="bold">Instant Quantitative Telemetry:</span> Automatically calculates changed surface area ($4.8\%$), exact pixel counts ($3,200\text{ px}$), and anomaly severity indices.</li>
+        </ul>
+      </div>
+
+      <!-- Bottom Right Box: Unique Value Propositions -->
+      <div class="card-box" style="flex: 1.1;">
+        <div class="box-header">Unique Value Propositions (UVP) :</div>
+        <ul class="point-list">
+          <li><span class="bold">Dynamic Model Switching Matrix:</span> Cross-validate results using both Attention-based and Differential Siamese networks on a single interface.</li>
+          <li><span class="bold">Interactive Swipe Reveal HUD:</span> Non-technical operators can visually peel and compare satellite layers effortlessly.</li>
+          <li><span class="bold">Runs with Full Efficiency:</span> Optimized for both local edge devices (CUDA GPU / CPU fallback) and centralized cloud servers.</li>
+          <li><span class="bold">Zero-Cost Open-Source Stack:</span> Built 100% on PyTorch, OpenCV, and Flask without proprietary GIS licensing fees.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span>@SIH Idea submission- Template</span>
+    <span>2</span>
+  </div>
+</div>
+
+
+<!-- ========================================================================= -->
+<!-- SLIDE 3: TECHNICAL APPROACH (Exact Winning Architecture & Diagram Layout) -->
+<!-- ========================================================================= -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="team-badge">YOUR TEAM<br>NAME</div>
+    <div class="slide-title">TECHNICAL APPROACH</div>
+    <div class="sih-logo">
+      <div style="font-size: 28px;">🧠</div>
+      <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br>2026</div>
+    </div>
+  </div>
+
+  <div class="two-col-grid" style="margin-bottom: 6px;">
+    <!-- Left Box: Tech Stack Breakdown -->
+    <div class="card-box">
+      <div class="box-header">TECHNOLOGY STACK & ALGORITHMS</div>
+      
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div>
+          <div style="font-size: 12px; font-weight: 800; color: #0070c0;">Deep Learning & AI Core:</div>
+          <p style="font-size: 11.5px; color: #334155;">
+            <span class="bold">PyTorch 2.7 & Torchvision</span> (CUDA 11.8 Accelerated) — Powers <span class="highlight">TinyCD</span> (EfficientNet-B0 backbone + Squeeze-and-Excitation attention) and <span class="highlight">Siamese U-Net</span> (Shared DoubleConv Encoder with differential skip connections).
+          </p>
+        </div>
+
+        <div>
+          <div style="font-size: 12px; font-weight: 800; color: #0070c0;">Computer Vision & Preprocessing:</div>
+          <p style="font-size: 11.5px; color: #334155;">
+            <span class="bold">OpenCV & Pillow (PIL)</span> — Multi-scale ImageNet & $[0,1]$ adaptive normalization, morphological contour extraction, and continuous Turbo colormap heatmap rendering.
+          </p>
+        </div>
+
+        <div>
+          <div style="font-size: 12px; font-weight: 800; color: #0070c0;">Backend & REST APIs:</div>
+          <p style="font-size: 11.5px; color: #334155;">
+            <span class="bold">Python 3.10 & Flask 3.1</span> — High-performance WSGI server with Base64 in-memory streaming REST endpoints (<span class="bold">/api/predict</span>, <span class="bold">/api/switch_model</span>, <span class="bold">/api/info</span>).
+          </p>
+        </div>
+
+        <div>
+          <div style="font-size: 12px; font-weight: 800; color: #0070c0;">Frontend HUD & Visualization:</div>
+          <p style="font-size: 11.5px; color: #334155;">
+            <span class="bold">HTML5 Canvas, CSS3 Glassmorphism & ES6+ JS</span> — Interactive Starfield engine, telemetry widgets, drag-and-drop stations, and swipe comparison slider.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Box: Process Flow Architecture -->
+    <div class="card-box">
+      <div class="box-header" style="text-align: center;">PROCESS FLOW ARCHITECTURE</div>
+      
+      <div class="flow-diagram">
+        <!-- Step 1 -->
+        <div class="flow-row">
+          <div class="flow-node highlight-node">
+            🛰️ <b>T1 Pre-Event Image</b><br><span style="font-size:9.5px; color:#64748b;">(Historical Baseline)</span>
+          </div>
+          <div style="font-weight: 800; color:#0070c0;">+</div>
+          <div class="flow-node highlight-node">
+            🛸 <b>T2 Post-Event Image</b><br><span style="font-size:9.5px; color:#64748b;">(Recent Satellite Pass)</span>
+          </div>
+        </div>
+
+        <div class="flow-arrow">▼</div>
+
+        <!-- Step 2 -->
+        <div class="flow-row">
+          <div class="flow-node">
+            🔄 <b>Adaptive Preprocessing Pipeline</b><br>
+            <span style="font-size:9.5px; color:#64748b;">Bilinear Resizing (256×256) • Model-Tailored Normalization</span>
+          </div>
+        </div>
+
+        <div class="flow-arrow">▼</div>
+
+        <!-- Step 3 -->
+        <div class="flow-row">
+          <div class="flow-node" style="border-color: #ea580c; background: #fff7ed;">
+            ⚡ <b>Neural Inference Engine (CUDA GPU)</b><br>
+            <span style="font-size:9.5px; font-weight:700; color:#c2410c;">Model 1: TinyCD (Attention)  ⇄  Model 2: Siamese U-Net</span>
+          </div>
+        </div>
+
+        <div class="flow-arrow">▼</div>
+
+        <!-- Step 4 -->
+        <div class="flow-row">
+          <div class="flow-node">
+            📊 <b>Sigmoid Probability & Adaptive Thresholding (0.1 - 0.9)</b>
+          </div>
+        </div>
+
+        <div class="flow-arrow">▼</div>
+
+        <!-- Step 5 -->
+        <div class="flow-row">
+          <div class="flow-node highlight-node" style="font-size: 10px;">
+            ⚡ <b>Binary Anomaly Mask</b>
+          </div>
+          <div class="flow-node highlight-node" style="font-size: 10px;">
+            🛰️ <b>Holographic Overlay</b>
+          </div>
+          <div class="flow-node highlight-node" style="font-size: 10px;">
+            🌌 <b>Turbo Heatmap</b>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Status Bar -->
+  <div class="status-banner">
+    🚀 Product Status: 100% Working Prototype Completed with Live Dual-Model Switching, CUDA GPU Acceleration & Space HUD Web Interface.
+  </div>
+
+  <div class="slide-footer">
+    <span>@SIH Idea submission- Template</span>
+    <span>3</span>
+  </div>
+</div>
+
+
+<!-- ========================================================================= -->
+<!-- SLIDE 4: FEASIBILITY AND VIABILITY -->
+<!-- ========================================================================= -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="team-badge">YOUR TEAM<br>NAME</div>
+    <div class="slide-title">FEASIBILITY AND VIABILITY</div>
+    <div class="sih-logo">
+      <div style="font-size: 28px;">🧠</div>
+      <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br>2026</div>
+    </div>
+  </div>
+
+  <div class="grid-three-col">
+    <!-- Box 1: Feasibility Analysis -->
+    <div class="card-box">
+      <div class="box-header">Feasibility Analysis :</div>
+      <ul class="point-list">
+        <li><span class="bold">Technical Feasibility:</span> Verified sub-second latency (<span class="highlight">~298ms - 540ms</span> on NVIDIA RTX 2050 GPU) with lightweight memory footprint (<span class="bold">&lt; 55 MB</span> checkpoint size).</li>
+        <li><span class="bold">Operational Viability:</span> Lightweight web architecture accessible across standard browsers without needing expensive GIS workstations.</li>
+        <li><span class="bold">Financial Viability:</span> Built 100% on open-source frameworks (PyTorch, Flask, OpenCV) with <span class="highlight">zero recurring license costs</span>.</li>
+      </ul>
+    </div>
+
+    <!-- Box 2: Potential Challenges & Risks -->
+    <div class="card-box">
+      <div class="box-header">Challenges & Risks :</div>
+      <ul class="point-list">
+        <li><span class="bold">Environmental Noise:</span> Seasonal foliage changes, sun-glint, and cloud shadows can trigger false-positive alarms.</li>
+        <li><span class="bold">Sensor Discrepancies:</span> Satellite imagery from different sensors/resolutions may cause alignment (co-registration) errors.</li>
+        <li><span class="bold">Gigapixel Scale:</span> Extremely large geographic orthomosaics require high GPU memory during batch inference.</li>
+      </ul>
+    </div>
+
+    <!-- Box 3: Mitigation Strategies -->
+    <div class="card-box">
+      <div class="box-header">Mitigation Strategies :</div>
+      <ul class="point-list">
+        <li><span class="bold">Channel Attention & Diff-Layers:</span> Focuses strictly on structural changes while filtering out seasonal/illumination noise.</li>
+        <li><span class="bold">Adaptive Preprocessing:</span> Standardized bicubic spatial scaling and model-tailored tensor normalization.</li>
+        <li><span class="bold">Tiled Sliding-Window Inference:</span> Slices gigapixel satellite rasters into 256×256 tiles with overlapping boundary blending.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span>@SIH Idea submission- Template</span>
+    <span>4</span>
+  </div>
+</div>
+
+
+<!-- ========================================================================= -->
+<!-- SLIDE 5: IMPACT AND BENEFITS -->
+<!-- ========================================================================= -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="team-badge">YOUR TEAM<br>NAME</div>
+    <div class="slide-title">IMPACT AND BENEFITS</div>
+    <div class="sih-logo">
+      <div style="font-size: 28px;">🧠</div>
+      <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br>2026</div>
+    </div>
+  </div>
+
+  <div class="two-col-grid">
+    <!-- Left Box: Target Audience Impact -->
+    <div class="card-box">
+      <div class="box-header">Target Audience Impact :</div>
+      <ul class="point-list">
+        <li><span class="bold">Space Agencies & ISRO/NRSC:</span> High-throughput automated surveillance across multi-temporal satellite constellations.</li>
+        <li><span class="bold">Disaster Management Authorities (NDRF/SDMA):</span> Instant damage mapping during floods, earthquakes, landslides, and cyclones for prioritized rescue routing.</li>
+        <li><span class="bold">Urban Planning & Municipal Bodies:</span> Automated tracking of illegal encroachments, unauthorized constructions, and urban sprawl.</li>
+        <li><span class="bold">Forestry & Environment Departments:</span> Continuous real-time alerts for illegal deforestation, mining activities, and waterbody shrinkage.</li>
+        <li><span class="bold">Defence & Border Security:</span> Tactical monitoring of remote infrastructure build-up and border line alterations.</li>
+      </ul>
+    </div>
+
+    <!-- Right Box: Triple-Bottom-Line Benefits -->
+    <div class="card-box">
+      <div class="box-header">Key Multidimensional Benefits :</div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div>
+          <div style="font-size: 13.5px; font-weight: 800; color: #0070c0;">🌐 Social Impact:</div>
+          <p style="font-size: 12px; color: #334155;">
+            Accelerates humanitarian disaster response times from days to <span class="bold">minutes</span>, saving lives and providing transparent rehabilitation assessment.
+          </p>
+        </div>
+        <div>
+          <div style="font-size: 13.5px; font-weight: 800; color: #166534;">💰 Economic Impact:</div>
+          <p style="font-size: 12px; color: #334155;">
+            Delivers <span class="bold">90%+ cost and time reduction</span> over manual field surveys; curbs government revenue losses from illegal land occupation.
+          </p>
+        </div>
+        <div>
+          <div style="font-size: 13.5px; font-weight: 800; color: #c2410c;">🌱 Environmental Impact:</div>
+          <p style="font-size: 12px; color: #334155;">
+            Enables proactive surveillance of ecologically sensitive zones, national parks, and coastal regulatory zones against illegal degradation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span>@SIH Idea submission- Template</span>
+    <span>5</span>
+  </div>
+</div>
+
+
+<!-- ========================================================================= -->
+<!-- SLIDE 6: RESEARCH AND REFERENCES -->
+<!-- ========================================================================= -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="team-badge">YOUR TEAM<br>NAME</div>
+    <div class="slide-title">RESEARCH AND REFERENCES</div>
+    <div class="sih-logo">
+      <div style="font-size: 28px;">🧠</div>
+      <div class="sih-logo-text">SMART INDIA<br>HACKATHON<br>2026</div>
+    </div>
+  </div>
+
+  <div class="two-col-grid">
+    <!-- Left Box: Research Literature -->
+    <div class="card-box">
+      <div class="box-header">Primary Research Literature :</div>
+      <ul class="point-list">
+        <li><span class="bold">TinyCD Architecture:</span> Codegoni et al., <i>"TinyCD: A (Not So) Deep Learning Model for Change Detection"</i>, IEEE Geoscience and Remote Sensing Letters, 2022.</li>
+        <li><span class="bold">Siamese U-Net Networks:</span> Daudt et al., <i>"Fully Convolutional Siamese Networks for Change Detection"</i>, IEEE International Conference on Image Processing (ICIP), 2018.</li>
+        <li><span class="bold">Squeeze-and-Excitation Networks:</span> Hu et al., <i>"Squeeze-and-Excitation Networks"</i>, IEEE/CVF CVPR.</li>
+        <li><span class="bold">EfficientNet Backbone:</span> Tan & Le, <i>"EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks"</i>, ICML, 2019.</li>
+      </ul>
+    </div>
+
+    <!-- Right Box: Datasets & Frameworks -->
+    <div class="card-box">
+      <div class="box-header">Datasets & Technical Standards :</div>
+      <ul class="point-list">
+        <li><span class="bold">SYSU-CD Dataset:</span> Sun Yat-sen University Bi-Temporal Remote Sensing Benchmark for urban and land-cover change detection.</li>
+        <li><span class="bold">LEVIR-CD Dataset:</span> Large-Scale Building Change Detection Dataset with high-resolution aerial imagery pairs.</li>
+        <li><span class="bold">Deep Learning Framework:</span> PyTorch AI & Torchvision Documentation (https://pytorch.org).</li>
+        <li><span class="bold">Computer Vision Standards:</span> OpenCV 4.x Image Processing Library (https://opencv.org).</li>
+        <li><span class="bold">Web Microservices:</span> Flask WSGI Framework & REST API Specifications (https://flask.palletsprojects.com).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span>@SIH Idea submission- Template</span>
+    <span>6</span>
+  </div>
+</div>
+
+</body>
+</html>

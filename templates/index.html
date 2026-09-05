@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMOS // Orbital Change Detection Console</title>
+    <link rel="stylesheet" href="/static/css/space_theme.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛰️</text></svg>">
+</head>
+<body>
+    <!-- Background Animated Starfield -->
+    <canvas id="starfield-canvas"></canvas>
+
+    <!-- Main Mission Control HUD Container -->
+    <div class="hud-container">
+        <!-- Top Mission Header -->
+        <header class="glass-panel mission-header cyber-corners">
+            <div class="brand-group">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M12 3a9 9 0 0 0 0 18v-9h9"/>
+                        <path d="M3.6 9h16.8M3.6 15h16.8"/>
+                    </svg>
+                </div>
+                <div class="brand-title">
+                    <h1>COSMOS // Orbital Earth Observation</h1>
+                    <div class="subtitle">DUAL-MODEL NEURAL CHANGE DETECTION ENGINE // SIH PS 1518</div>
+                </div>
+            </div>
+            <div class="system-telemetry-badge">
+                <div class="status-beacon">
+                    <span class="pulse-dot"></span>
+                    <span id="system-status-text">MISSION READY</span>
+                </div>
+                <div class="device-badge" id="device-badge">
+                    ⚡ HARDWARE: DETECTING...
+                </div>
+            </div>
+        </header>
+
+        <!-- Model Switcher Deck -->
+        <section class="model-deck-section">
+            <div class="section-label">
+                <span>🛰️ ACTIVE NEURAL MODEL SELECTION (CLICK TO SWITCH)</span>
+            </div>
+            <div class="model-cards-grid">
+                <!-- Model 1: TinyCD -->
+                <div class="model-card active cyber-corners" id="card-model_1" onclick="selectModel('model_1')">
+                    <div class="model-card-info">
+                        <h3>
+                            <span id="m1-name">Orbital-CD Alpha (TinyCD)</span>
+                            <span class="model-tag" id="m1-badge">EFFICIENTNET-B0</span>
+                        </h3>
+                        <p class="model-desc" id="m1-desc">Lightweight attention-driven change detection with pre-trained EfficientNet backbone.</p>
+                        <div class="model-specs">
+                            <span>Architecture: <b id="m1-backbone">TinyCD + Attention</b></span>
+                            <span>•</span>
+                            <span>Status: <b style="color:var(--emerald);">Active Ready</b></span>
+                        </div>
+                    </div>
+                    <div class="model-radio-icon"></div>
+                </div>
+
+                <!-- Model 2: Siamese U-Net -->
+                <div class="model-card cyber-corners" id="card-model_2" onclick="selectModel('model_2')">
+                    <div class="model-card-info">
+                        <h3>
+                            <span id="m2-name">Siam-UNet Beta (Siamese U-Net)</span>
+                            <span class="model-tag" id="m2-badge">SIAMESE U-NET</span>
+                        </h3>
+                        <p class="model-desc" id="m2-desc">Siamese dual-encoder with multi-scale absolute differential skip connections (SIH1518).</p>
+                        <div class="model-specs">
+                            <span>Architecture: <b id="m2-backbone">Siamese DoubleConv (512)</b></span>
+                            <span>•</span>
+                            <span>Status: <b style="color:var(--cyan);">Standby Ready</b></span>
+                        </div>
+                    </div>
+                    <div class="model-radio-icon"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Sample Data Strip -->
+        <section class="glass-panel samples-bar cyber-corners" id="samples-section">
+            <div class="samples-label">⚡ QUICK LOAD SAMPLE ORBITS:</div>
+            <div class="samples-list" id="samples-container">
+                <!-- Dynamically populated from API -->
+            </div>
+        </section>
+
+        <!-- Dual Temporal Upload Grid -->
+        <main class="workspace-grid">
+            <!-- Station Alpha: T1 Pre-Event -->
+            <div class="glass-panel upload-station cyber-corners">
+                <div class="station-header">
+                    <div class="station-title">
+                        <span class="station-tag-t1">📡 [T₁ PRE-EVENT]</span>
+                        <span>BEFORE IMAGERY</span>
+                    </div>
+                    <button class="btn-cyber-sm" onclick="triggerFileSelect('t1')">Browse File</button>
+                </div>
+                <div class="dropzone-box" id="dropzone-t1" onclick="triggerFileSelect('t1')">
+                    <input type="file" id="file-input-t1" accept="image/*" style="display: none;" onchange="handleFileSelect(event, 't1')">
+                    <div class="dropzone-empty" id="empty-t1">
+                        <div class="upload-icon">🛰️</div>
+                        <div class="drop-prompt">Drop Before Imagery (T₁) Here</div>
+                        <div class="drop-subtext">Click to select or paste from clipboard (Ctrl+V)</div>
+                    </div>
+                    <img id="preview-t1" class="preview-img" alt="T1 Preview">
+                    <div class="station-meta-badge" id="meta-t1">-- × --</div>
+                </div>
+                <div class="station-actions">
+                    <button class="btn-cyber-sm" onclick="clearImage('t1')">Clear</button>
+                    <button class="btn-cyber-sm" onclick="swapImages()">Swap T₁ ⇄ T₂</button>
+                </div>
+            </div>
+
+            <!-- Station Beta: T2 Post-Event -->
+            <div class="glass-panel upload-station cyber-corners">
+                <div class="station-header">
+                    <div class="station-title">
+                        <span class="station-tag-t2">🛸 [T₂ POST-EVENT]</span>
+                        <span>AFTER IMAGERY</span>
+                    </div>
+                    <button class="btn-cyber-sm" onclick="triggerFileSelect('t2')">Browse File</button>
+                </div>
+                <div class="dropzone-box" id="dropzone-t2" onclick="triggerFileSelect('t2')">
+                    <input type="file" id="file-input-t2" accept="image/*" style="display: none;" onchange="handleFileSelect(event, 't2')">
+                    <div class="dropzone-empty" id="empty-t2">
+                        <div class="upload-icon">🌌</div>
+                        <div class="drop-prompt">Drop After Imagery (T₂) Here</div>
+                        <div class="drop-subtext">Click to select or paste from clipboard (Ctrl+V)</div>
+                    </div>
+                    <img id="preview-t2" class="preview-img" alt="T2 Preview">
+                    <div class="station-meta-badge" id="meta-t2">-- × --</div>
+                </div>
+                <div class="station-actions">
+                    <button class="btn-cyber-sm" onclick="clearImage('t2')">Clear</button>
+                    <button class="btn-cyber-sm" onclick="swapImages()">Swap T₁ ⇄ T₂</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Hyper-Inference Control Dock -->
+        <section class="glass-panel control-dock cyber-corners">
+            <div class="dock-controls">
+                <!-- Sensitivity Threshold -->
+                <div class="param-group">
+                    <label class="param-label">DETECTION THRESHOLD</label>
+                    <div class="slider-container">
+                        <input type="range" class="cyber-slider" id="threshold-slider" min="0.1" max="0.9" step="0.05" value="0.5" oninput="updateThresholdLabel(this.value)">
+                        <span class="param-val" id="threshold-val">0.50</span>
+                    </div>
+                </div>
+
+                <!-- Overlay Opacity -->
+                <div class="param-group">
+                    <label class="param-label">OVERLAY INTENSITY</label>
+                    <div class="slider-container">
+                        <input type="range" class="cyber-slider" id="alpha-slider" min="0.2" max="0.8" step="0.05" value="0.5" oninput="updateAlphaLabel(this.value)">
+                        <span class="param-val" id="alpha-val">50%</span>
+                    </div>
+                </div>
+
+                <!-- Color Glow Chooser -->
+                <div class="param-group">
+                    <label class="param-label">GLOW SIGNATURE</label>
+                    <div class="color-picker-group">
+                        <div class="color-option selected" style="background:#ff0055;" onclick="selectColor(this, '#ff0055')" title="Cosmic Crimson"></div>
+                        <div class="color-option" style="background:#00f0ff;" onclick="selectColor(this, '#00f0ff')" title="Pulsar Cyan"></div>
+                        <div class="color-option" style="background:#00ff88;" onclick="selectColor(this, '#00ff88')" title="Emerald Bio"></div>
+                        <div class="color-option" style="background:#ffaa00;" onclick="selectColor(this, '#ffaa00')" title="Supernova Amber"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Launch Button -->
+            <button class="btn-launch-inference" id="btn-run" onclick="executeInference()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <span>ENGAGE DETECTION MATRIX</span>
+            </button>
+        </section>
+
+        <!-- Results & Telemetry Inspection Deck -->
+        <section class="results-section" id="results-deck">
+            <!-- Telemetry Stats Cards -->
+            <div class="telemetry-cards">
+                <div class="glass-panel telemetry-card cyber-corners">
+                    <div class="tele-title">CHANGED AREA</div>
+                    <div class="tele-value" id="stat-changed-pct">--%</div>
+                </div>
+                <div class="glass-panel telemetry-card cyber-corners">
+                    <div class="tele-title">CHANGED PIXELS</div>
+                    <div class="tele-value" id="stat-changed-pixels">-- px</div>
+                </div>
+                <div class="glass-panel telemetry-card cyber-corners">
+                    <div class="tele-title">INFERENCE LATENCY</div>
+                    <div class="tele-value" id="stat-latency">-- ms</div>
+                </div>
+                <div class="glass-panel telemetry-card cyber-corners">
+                    <div class="tele-title">ANOMALY INDEX</div>
+                    <div class="tele-value" id="stat-anomaly">--</div>
+                </div>
+            </div>
+
+            <!-- Main Viewport with Tabs & Swipe Reveal Slider -->
+            <div class="glass-panel viewport-card cyber-corners">
+                <div class="results-header" style="width: 100%;">
+                    <div class="section-label" style="margin-bottom:0;">
+                        <span>🔬 ORBITAL RECONNAISSANCE VIEWPORT</span>
+                    </div>
+                    <div class="view-tabs">
+                        <button class="view-tab-btn active" onclick="switchViewMode('swipe')">⇄ Interactive Swipe</button>
+                        <button class="view-tab-btn" onclick="switchViewMode('overlay')">🛰️ Holographic Overlay</button>
+                        <button class="view-tab-btn" onclick="switchViewMode('mask')">⚡ Binary Anomaly Mask</button>
+                        <button class="view-tab-btn" onclick="switchViewMode('heatmap')">🌌 Cosmic Heatmap</button>
+                        <button class="view-tab-btn" onclick="switchViewMode('composite')">🔭 3-Panel Composite</button>
+                    </div>
+                </div>
+
+                <!-- 1. Interactive Swipe Reveal Slider -->
+                <div class="comparison-wrapper" id="swipe-container">
+                    <div class="compare-layer layer-bottom">
+                        <img id="swipe-overlay-img" src="" alt="After / Overlay">
+                        <span class="layer-label label-right">AFTER + CHANGE OVERLAY</span>
+                    </div>
+                    <div class="compare-layer layer-top" id="swipe-top-layer">
+                        <img id="swipe-t1-img" src="" alt="Before T1">
+                        <span class="layer-label label-left">BEFORE (T₁)</span>
+                    </div>
+                    <div class="slider-handle" id="swipe-handle"></div>
+                </div>
+
+                <!-- 2. Single Image View Containers -->
+                <div class="single-view-container" id="view-overlay">
+                    <img id="img-result-overlay" src="" alt="Overlay">
+                </div>
+                <div class="single-view-container" id="view-mask">
+                    <img id="img-result-mask" src="" alt="Binary Mask">
+                </div>
+                <div class="single-view-container" id="view-heatmap">
+                    <img id="img-result-heatmap" src="" alt="Heatmap">
+                </div>
+                <div class="single-view-container" id="view-composite">
+                    <img id="img-result-composite" src="" alt="3-Panel Composite">
+                </div>
+
+                <!-- Export & Download Actions -->
+                <div class="export-actions">
+                    <button class="btn-export" onclick="downloadCurrent('overlay')">⬇️ Export Overlay</button>
+                    <button class="btn-export" onclick="downloadCurrent('mask')">⬇️ Export Change Mask</button>
+                    <button class="btn-export" onclick="downloadCurrent('heatmap')">⬇️ Export Heatmap</button>
+                    <button class="btn-export" onclick="downloadCurrent('composite')">⬇️ Export 3-Panel Report</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Hyperspace Progress Screen -->
+    <div class="hyperspace-loader" id="loading-overlay">
+        <div class="radar-spinner"></div>
+        <div class="loader-text">PROCESSING ORBITAL TELEMETRY...</div>
+        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);">Running Neural Bi-Temporal Inference Matrix</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/starfield.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
