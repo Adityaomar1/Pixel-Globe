@@ -2,6 +2,7 @@
 ### Smart India Hackathon (SIH) - Problem Statement 1518: *Change Detection due to Human Activities*
 
 ---
+## How to Run(python run_app.py) simply run this command...
 
 ## 📌 Executive Summary
 
